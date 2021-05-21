@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Form from './form';
+import DetailShow from './detail_show';
+import {apiHost} from "./constant.js"
 
 function App() {
+  const [readAccess, setAccess] = useState(true);
+  const handleSubmit = () => {
+    let temp = !readAccess 
+    setAccess(temp)
+  }
+
+  useEffect(() => {
+    axios.post(`${apiHost}/`);        // to insert default data in db
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {
+        readAccess 
+        ?
+        <DetailShow readAccess={readAccess} handleSubmit={handleSubmit}/>  //this component is used to show details
+        :
+        <Form readAccess={readAccess} handleSubmit={handleSubmit}/>  //this component is used to update existing details
+      }
     </div>
   );
 }
